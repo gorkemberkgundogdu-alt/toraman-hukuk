@@ -2,6 +2,14 @@
 
 Güncelleme: 6 Ekim 2026
 
+## Son revizyon — önceki görsel uygulamayı geçersiz kılar
+
+Kullanıcı ilk v1'in Grlica UI/UX akışını karşılamadığını belirtti. Soyut portal, kart benzeri alanlar, KPI/yıl vurgusu ve renkli bölüm panelleri reddedildi. Yeni merkez yalnızca bir terazi. Subagent kullanımı durduruldu; revizyon ana ajan tarafından yapılır.
+
+Referans ve yerel sayfa canlı karşılaştırıldı. Yeni akış: tam ekran sürekli sahne, solda metinli bölüm navigasyonu, merkezde güçlü iki satırlı başlık, outline CTA, farklı yatay konumlarda akıp geçen alan metinleri ve büyük soluk numaralar. Terazi scroll ilerlemesine göre yaklaşır, kadrajı ve ışığı değişir; boşta dönmez. Büro bölümünde aynı yüzey koyudan açığa dönüşür, ekipte yeniden koyulaşır. Fotoğraflar serbest yerleşmiş dairesel portrelerdir. Loading logo + hızlı motif değişimi + gerçek üç hazırlık aşaması içerir; kiriş eğrisi logo formuyla bağlantılıdır. Kısa açılış koreografisi 1.05 saniyelik pencere içinde, reduced motion'da beklemeden gösterilir. Responsive mobilde başlık/CTA ve terazi ayrı yüksekliklerde okunur; alanlar asimetrik tek sütun akar.
+
+Eski planın portal/geometri, kart düzeni ve ilk QA ekranlarına ilişkin bölümleri tarihsel kayıttır; güncel tasarım sözleşmesi bu bölümdür.
+
 ## Durum ve çalışma sınırı
 
 Bu belge konuşmada kararlaştırılan yönü, içerikleri ve v1 kapsamını toplar. Kullanıcının sonraki onayıyla v1 geliştirildi: Astro + React, GSAP, özgün Three.js portal sahnesi, ana sayfa ve 12 çalışma alanı sayfası. Beş uzman rol aynı çalışma dizininde katkı verdi. Son kontrol ve GitHub teslimi yapılır; Vercel yayını kullanıcı tarafından gerçekleştirilecek.

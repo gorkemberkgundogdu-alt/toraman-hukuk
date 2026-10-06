@@ -1,6 +1,6 @@
 # Toraman Hukuk — v1
 
-Astro + React, original Three.js portal sculpture, GSAP scroll experience and Turkish service pages.
+Astro + React, original Three.js balance sculpture, continuous scroll-driven scene and Turkish service pages. The revised UI follows the requested Grlica spatial rhythm: fixed scene, left section navigation, staggered unboxed text and light transitions.
 
 ```sh
 npm ci

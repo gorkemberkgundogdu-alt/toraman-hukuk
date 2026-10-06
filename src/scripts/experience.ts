@@ -79,16 +79,31 @@ function setupLoader() {
   const exit = () => {
     if (finished) return;
     finished = true;
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const elapsed = performance.now() - Number(loader.dataset.started || 0);
+    // One brief branded opening sequence; progress remains tied to actual readiness.
+    const hold = reduced ? 0 : Math.max(0, 1050 - elapsed);
+    setTimeout(() => {
+    document.documentElement.dataset.experienceEntered = 'true';
+    const logo = loader.querySelector<HTMLElement>('.loader-logo');
+    const headerLogo = document.querySelector<HTMLElement>('.site-header .brand-logo');
+    if (!reduced && logo && headerLogo && typeof logo.animate === 'function') {
+      const start = logo.getBoundingClientRect();
+      const target = headerLogo.getBoundingClientRect();
+      logo.animate([{transform:'none'},{transform:`translate(${target.left + target.width/2 - start.left - start.width/2}px, ${target.top + target.height/2 - start.top - start.height/2}px) scale(${target.width/start.width})`}],{duration:500,easing:'cubic-bezier(.22,.7,.2,1)',fill:'forwards'});
+    }
+    setTimeout(() => window.dispatchEvent(new Event('toraman:enter')), reduced ? 0 : 250);
     loader.dispatchEvent(new Event('toraman:loader-exit'));
     window.removeEventListener('toraman:scene-ready', sceneReady);
     loader.dataset.state = 'ready';
     loader.style.pointerEvents = 'none';
     if (typeof loader.animate !== 'function') { loader.hidden = true; return; }
     const animation = loader.animate([{ opacity: 1 }, { opacity: 0 }], {
-      duration: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 0 : 240,
+      duration: reduced ? 0 : 650,
       easing: 'ease-out', fill: 'forwards',
     });
     animation.finished.then(() => { loader.hidden = true; }).catch(() => { loader.hidden = true; });
+    }, hold);
   };
   const complete = (stage: string) => {
     if (finished) return;
