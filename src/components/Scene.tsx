@@ -33,7 +33,7 @@ export default function Scene() {
       renderer = new THREE.WebGLRenderer({ alpha:true, antialias:true, powerPreference:'low-power' });
       renderer.setClearColor(0,0);
       renderer.toneMapping = THREE.ACESFilmicToneMapping;
-      renderer.toneMappingExposure = 1.3;
+      renderer.toneMappingExposure = mobile.matches ? 0.98 : 1.3;
       node.appendChild(renderer.domElement);
       const scene = new THREE.Scene();
       const camera = new THREE.PerspectiveCamera(35,1,.1,60);
@@ -122,14 +122,14 @@ export default function Scene() {
         const light=clamp(a*(1-t)+f,0,1);
         // Hero: full balance right. Practice: camera closes in and travels past the pans.
         // About: full object recedes into a white-lit field. Team: it moves to the margin.
-        const heroX=mobile.matches ? 0 : 4.8;
+        const heroX=mobile.matches ? 2.65 : 4.8;
         const travel=[{x:heroX,y:0,s:1.22},{x:3.6,y:-.8,s:1.75},{x:1.2,y:1.5,s:2.05},{x:3.8,y:-1.5,s:2.15},{x:1.3,y:1.1,s:2.3},{x:3.9,y:-.6,s:1.85}];
         const segment=Math.min(4,Math.floor(p*5));
         const blend=THREE.MathUtils.smoothstep(p*5-segment,0,1);
         const from=travel[segment],to=travel[segment+1];
-        const scale=mobile.matches ? lerp(.5,.8,p)*(1-.28*a)*(1-.45*t) : lerp(lerp(from.s,to.s,blend),1.05,a)*(1-.22*t);
-        const targetX=mobile.matches ? p*.8 : lerp(lerp(from.x,to.x,blend),4.6,a)+t*2.6-c*2;
-        const targetHeight=mobile.matches ? -1.2 : lerp(lerp(from.y,to.y,blend),-.1,a)+t*.3;
+        const scale=mobile.matches ? lerp(.92,.8,p)*(1-.28*a)*(1-.45*t) : lerp(lerp(from.s,to.s,blend),1.05,a)*(1-.22*t);
+        const targetX=mobile.matches ? lerp(heroX,.8,p) : lerp(lerp(from.x,to.x,blend),4.6,a)+t*2.6-c*2;
+        const targetHeight=mobile.matches ? lerp(-.65,-1.2,p) : lerp(lerp(from.y,to.y,blend),-.1,a)+t*.3;
         const logo=document.querySelector('.site-header .brand-logo')?.getBoundingClientRect();
         const viewHeight=2*Math.tan(THREE.MathUtils.degToRad(camera.fov/2))*camera.position.z;
         const originX=logo ? ((logo.left+logo.width/2)/innerWidth-.5)*viewHeight*camera.aspect : -3.3;
@@ -140,7 +140,7 @@ export default function Scene() {
         beam.rotation.z=Math.sin(p*Math.PI*2)*.035*(1-a);
         metal.color.setRGB(lerp(.035,.88,light),lerp(.055,.9,light),lerp(.18,.97,light));
         metal.roughness=lerp(.14,.28,light);
-        key.intensity=lerp(2,5,light); cobalt.intensity=lerp(140,25,light);
+        key.intensity=lerp(mobile.matches?1.2:2,5,light); cobalt.intensity=lerp(mobile.matches?75:140,25,light);
         cobalt.position.x=lerp(5,-4,p); cobalt.position.y=lerp(2,-2,p);
         const bg=Math.round(lerp(2,250,light));
         document.body.style.setProperty('--flow-background',`rgb(${bg} ${bg} ${bg+Math.round((1-light)*2)})`);

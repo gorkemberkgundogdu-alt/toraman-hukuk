@@ -97,16 +97,16 @@ body:not(.is-detail) #load-status { font-size:10px; letter-spacing:.04em; }
   body:not(.is-detail) .site-header { width:100%; padding:20px 24px; align-items:center; justify-content:space-between; background:linear-gradient(var(--flow-background),transparent); }
   body:not(.is-detail) .brand img { width:165px; }
   body:not(.is-detail) .page-progress,.contact-launch { display:none; }
-  body:not(.is-detail) .scene-wrap { position:fixed; inset:0; height:100svh; }
-  body:not(.is-detail) .scene-fallback { width:100%; left:0; opacity:.7; }
-  .scene-story .hero { min-height:104svh; padding:135px 24px 100px; }
-  .scene-story .hero-eyebrow { font-size:10px; margin-bottom:24px; }
-  .scene-story .hero-title { font-size:clamp(43px,10.5vw,76px); max-width:100%; letter-spacing:-.055em; }
-  .scene-story .hero-contact { width:210px; font-size:16px; margin:28px 0 0; padding:14px 22px; }
-  .scene-story .hero-bottom { margin:45svh 0 0; max-width:330px; }
-  .scene-story .hero-description { font-size:13px; }
-  .hero-credentials { font-size:14px; }
-  .scroll-cue { left:24px; bottom:30px; }
+  body:not(.is-detail) .scene-wrap { position:fixed; inset:0; height:100svh; pointer-events:none; }
+  body:not(.is-detail) .scene-fallback { width:120%; left:20%; opacity:.45; }
+  .scene-story .hero { min-height:100svh; padding:120px 24px 60px; display:flex; flex-direction:column; justify-content:center; position:relative; z-index:2; }
+  .scene-story .hero-eyebrow { font-size:11px; margin-bottom:18px; letter-spacing:.12em; }
+  .scene-story .hero-title { font-size:clamp(38px,9.5vw,56px); max-width:85%; letter-spacing:-.05em; line-height:1.12; margin:0; }
+  .scene-story .hero-contact { position:relative; z-index:3; width:fit-content; min-width:190px; font-size:15px; margin:28px 0 0; padding:13px 22px; gap:20px; background:rgba(2,2,4,0.45); backdrop-filter:blur(6px); -webkit-backdrop-filter:blur(6px); }
+  .scene-story .hero-bottom { margin:32px 0 0; max-width:280px; position:relative; z-index:2; }
+  .scene-story .hero-description { font-size:13px; line-height:1.6; text-shadow:0 1px 8px rgba(2,2,4,0.7); }
+  .hero-credentials { font-size:13px; line-height:1.6; margin-top:14px; text-shadow:0 1px 8px rgba(2,2,4,0.7); }
+  .scroll-cue { left:24px; bottom:20px; }
   .scene-story .practice-section { padding:80px 24px 100px; }
   .scene-story .section-title { font-size:clamp(46px,9vw,70px); max-width:100%; margin:0 0 100px; }
   .scene-story .practice-item:nth-child(n) { width:78%; max-width:400px; margin:0 0 110px; }
