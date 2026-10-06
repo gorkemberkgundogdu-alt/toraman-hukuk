@@ -1,0 +1,63 @@
+---
+import { firm } from '../data/content';
+---
+<div id="loader" hidden aria-label="Sayfa hazırlanıyor">
+  <div class="loader-mark" aria-hidden="true">
+    <svg class="loader-motif is-active" viewBox="0 0 120 120" fill="none" stroke="currentColor" stroke-width="2"><path d="M24 88h72M60 28v60M30 44h60M30 44 18 67h24L30 44Zm60 0L78 67h24L90 44Z" /></svg>
+    <svg class="loader-motif" viewBox="0 0 120 120" fill="none" stroke="currentColor" stroke-width="2"><path d="M28 92V28h64v64H28Zm16-16V44h32v32H44Z" /></svg>
+    <svg class="loader-motif" viewBox="0 0 120 120" fill="none" stroke="currentColor" stroke-width="2"><path d="m42 74-9 9a20 20 0 0 1-28-28l24-24a20 20 0 0 1 28 0m21 15 9-9a20 20 0 0 1 28 28L91 89a20 20 0 0 1-28 0M38 82l44-44" /></svg>
+    <svg class="loader-motif" viewBox="0 0 120 120" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 94V72c0-27 17-46 42-46h34M39 94V73c0-18 10-30 27-30h32" /></svg>
+  </div>
+  <p class="loader-name">{firm.name}</p>
+  <progress id="load-progress" max="3" value="0" aria-label="Tamamlanan hazırlık aşamaları" aria-describedby="load-status"></progress>
+  <p id="load-status" role="status" aria-live="polite" aria-atomic="true">Sayfa hazırlanıyor · 0 / 3 aşama</p>
+</div>
+<noscript><style>#loader { display: none !important; }</style></noscript>
+<script is:inline>
+  // Bootstrap before the scene island: capture readiness even before the main module runs.
+  (() => {
+    const loader = document.getElementById('loader');
+    if (!loader) return;
+    const motion = matchMedia('(prefers-reduced-motion: reduce)');
+    const motifs = Array.from(loader.querySelectorAll('.loader-motif'));
+    let motifIndex = 0;
+    let cycle;
+    let exiting = false;
+    const showMotif = (active) => motifs.forEach((motif, index) => {
+      motif.style.animation = 'none';
+      motif.style.transition = motion.matches ? 'none' : 'opacity 160ms ease';
+      motif.style.setProperty('opacity', index === active ? '1' : '0', 'important');
+      motif.classList.toggle('is-active', index === active);
+    });
+    const stopCycle = () => {
+      exiting = true;
+      clearInterval(cycle);
+      showMotif(motifs.length - 1);
+      motion.removeEventListener('change', configureCycle);
+    };
+    const configureCycle = () => {
+      clearInterval(cycle);
+      if (exiting) return;
+      showMotif(motion.matches ? motifs.length - 1 : motifIndex);
+      if (!motion.matches) cycle = setInterval(() => {
+        motifIndex = (motifIndex + 1) % motifs.length;
+        showMotif(motifIndex);
+      }, 300);
+    };
+    configureCycle();
+    motion.addEventListener('change', configureCycle);
+    loader.addEventListener('toraman:loader-exit', stopCycle, { once: true });
+    window.addEventListener('toraman:scene-ready', () => { loader.dataset.sceneReady = 'true'; }, { once: true });
+    loader.hidden = false;
+    window.setTimeout(() => {
+      if (loader.hidden) return;
+      stopCycle();
+      document.getElementById('load-status').textContent = 'İçerik hazır; sayfayı keşfedebilirsiniz.';
+      loader.dispatchEvent(new Event('toraman:loader-timeout'));
+      if (typeof loader.animate === 'function') {
+        const exit = loader.animate([{ opacity: 1 }, { opacity: 0 }], { duration: motion.matches ? 0 : 200 });
+        exit.finished.then(() => { loader.hidden = true; }).catch(() => { loader.hidden = true; });
+      } else loader.hidden = true;
+    }, 4000);
+  })();
+</script>

@@ -1,0 +1,57 @@
+---
+import '@fontsource/manrope/400.css';
+import '@fontsource/manrope/500.css';
+import '@fontsource/manrope/600.css';
+import '@fontsource/manrope/700.css';
+import '../styles/global.css';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { absoluteUrl, allowIndexing, firm, legalServiceSchema } from '../data/content';
+
+interface Props {
+  title?: string;
+  description?: string;
+  dark?: boolean;
+  schema?: Record<string, unknown> | Record<string, unknown>[];
+}
+
+const { title = 'Toraman Hukuk | İstanbul Hukuk Bürosu', description = firm.description, dark = true, schema } = Astro.props;
+const pathname = Astro.url.pathname;
+const canonicalPath = pathname === '/' ? '/' : `${pathname.replace(/\/+$/, '')}/`;
+const canonical = absoluteUrl(canonicalPath);
+const extraSchemas = schema ? (Array.isArray(schema) ? schema : [schema]) : [];
+const schemas = [legalServiceSchema, ...extraSchemas];
+const serializedSchemas = JSON.stringify(schemas).replace(/</g, '\\u003c');
+---
+<!doctype html>
+<html lang="tr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content={dark ? '#080b10' : '#eeeee8'} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="robots" content={allowIndexing ? 'index, follow' : 'noindex, nofollow'} />
+    <link rel="canonical" href={canonical} />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="tr_TR" />
+    <meta property="og:site_name" content={firm.name} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <script type="application/ld+json" set:html={serializedSchemas} />
+  </head>
+  <body class:list={[dark ? 'theme-dark' : 'theme-light', { 'is-detail': pathname !== '/' }]} data-theme={dark ? 'dark' : 'light'}>
+    <a class="skip-link" href="#main-content">İçeriğe geç</a>
+    <Header />
+    <slot />
+    <Footer />
+    <script>
+      import '../scripts/experience';
+    </script>
+  </body>
+</html>

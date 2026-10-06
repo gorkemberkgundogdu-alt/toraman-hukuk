@@ -1,0 +1,21 @@
+---
+import { firm } from '../data/content';
+const home = Astro.url.pathname === '/';
+const sectionHref = (id: string) => `${home ? '' : '/'}#${id}`;
+const mapHref = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(firm.address)}`;
+---
+<footer id="iletisim" class="contact-section" data-scene="contact" aria-labelledby="contact-heading">
+  <div class="contact-layout">
+    <div class="contact-intro" data-reveal><p class="section-label">İletişim</p><h2 id="contact-heading">Kadıköy’de<br />buluşalım.</h2><p>Hukuki konunuzu birlikte değerlendirmek için bizimle iletişime geçebilirsiniz.</p></div>
+    <div class="contact-meta" data-reveal>
+      <div class="contact-actions"><a class="contact-phone" href={firm.phoneHref}>{firm.telephone} <span aria-hidden="true">↗</span></a><a class="contact-email" href={`mailto:${firm.email}`}>{firm.email} <span aria-hidden="true">↗</span></a></div>
+      <div class="contact-address"><p class="contact-label">Büromuz</p><address>{firm.address}</address><a class="directions-link" href={mapHref} target="_blank" rel="noopener noreferrer">Yol tarifi alın <span aria-hidden="true">↗</span><span class="sr-only"> (yeni sekmede açılır)</span></a></div>
+      <div class="contact-hours"><p class="contact-label">Çalışma saatleri</p><p>{firm.hours}</p></div>
+    </div>
+  </div>
+  <div class="site-footer">
+    <a class="brand footer-brand" href="/" aria-label={`${firm.name} — ana sayfa`}><img src="/images/logo.png" alt={firm.name} width="243" height="49" loading="lazy" style="filter: invert(1); mix-blend-mode: screen" /></a>
+    <nav class="footer-links" aria-label="Alt gezinme"><a href={sectionHref('alanlar')}>Çalışma alanları</a><a href={sectionHref('ekip')}>Ekibimiz</a><a href={sectionHref('sorular')}>Sık sorulan sorular</a><a href={home ? '#baslangic' : '#main-content'}>Başa dön <span aria-hidden="true">↑</span></a></nav>
+    <p class="footer-copyright">© {new Date().getFullYear()} {firm.name}</p>
+  </div>
+</footer>

@@ -1,0 +1,78 @@
+---
+import type { GetStaticPaths } from 'astro';
+import Layout from '../../layouts/Layout.astro';
+import FAQ from '../../components/FAQ.astro';
+import { absoluteUrl, areas, firm, type PracticeArea } from '../../data/content';
+
+export const prerender = true;
+export const getStaticPaths = (() => areas.map(area => ({
+  params: { slug: area.slug },
+  props: { area },
+}))) satisfies GetStaticPaths;
+
+interface Props { area: PracticeArea }
+const { area } = Astro.props;
+const areaUrl = absoluteUrl(`/calisma-alanlari/${area.slug}/`);
+const schema = [
+  {
+    '@context': 'https://schema.org', '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Ana sayfa', item: absoluteUrl('/') },
+      { '@type': 'ListItem', position: 2, name: area.title, item: areaUrl },
+    ],
+  },
+  {
+    '@context': 'https://schema.org', '@type': 'WebPage',
+    '@id': `${areaUrl}#webpage`, url: areaUrl, name: `${area.title} | Toraman Hukuk`,
+    description: area.description, inLanguage: 'tr',
+    about: { '@type': 'Service', name: area.title, description: area.description, provider: { '@id': absoluteUrl('/#bureau') } },
+  },
+];
+const nextArea = areas[(areas.findIndex(item => item.slug === area.slug) + 1) % areas.length];
+---
+<Layout title={`${area.title} | Toraman Hukuk`} description={area.description} schema={schema}>
+  <main id="main-content" class="detail-page">
+    <header class="detail-hero">
+      <nav class="breadcrumb" aria-label="Sayfa yolu">
+        <a href="/">Ana sayfa</a>
+        <span aria-hidden="true">/</span>
+        <a href="/#alanlar">Çalışma alanları</a>
+        <span aria-hidden="true">/</span>
+        <span aria-current="page">{area.title}</span>
+      </nav>
+      <p class="detail-number">{area.id} / Çalışma alanları</p>
+      <h1 class="detail-title">{area.title}</h1>
+      <p class="detail-lead">{area.description}</p>
+      <a class="text-link" href="#kapsam">Hizmet kapsamını inceleyin <span aria-hidden="true">↓</span></a>
+    </header>
+
+    <div class="detail-content" id="kapsam">
+      <section class="detail-topics" aria-labelledby="topics-heading">
+        <p class="section-label">Odak noktaları</p>
+        <h2 id="topics-heading">Ele aldığımız konular</h2>
+        <ul>{area.topics.map(topic => <li>{topic}</li>)}</ul>
+      </section>
+      <section class="detail-body" aria-labelledby="scope-heading">
+        <p class="section-label">Hizmet kapsamı</p>
+        <h2 id="scope-heading">{area.title.replace(' & ', ' ve ')} kapsamında hukuki destek</h2>
+        {area.paragraphs.map(paragraph => <p>{paragraph}</p>)}
+        <h2>Konunuz nasıl değerlendirilir?</h2>
+        <p>İlk iletişimde konunun özeti, mevcut aşaması ve ilgili belgeler üzerinden hukuki ihtiyacın çerçevesi ele alınır. Danışmanlık veya temsilin kapsamı, dosyanın özelliklerine göre değerlendirilir. Görüşme ve belge hazırlığı hakkında bilgi almak için büromuzla iletişime geçebilirsiniz.</p>
+        <p class="detail-note">Bu sayfa çalışma alanına ilişkin genel bilgilendirme içerir. Somut olayınıza ilişkin hukuki değerlendirme, ilgili bilgi ve belgelerin incelenmesini gerektirir.</p>
+        <section class="detail-contact" aria-labelledby="detail-contact-heading">
+      <p class="section-label">İletişim</p>
+      <h2 id="detail-contact-heading">Konunuzu birlikte değerlendirelim.</h2>
+      <p>Görüşme hakkında bilgi almak için telefon veya e-posta yoluyla bize ulaşabilirsiniz.</p>
+      <div class="contact-actions">
+        <a href={firm.phoneHref}>{firm.telephone} <span aria-hidden="true">↗</span></a>
+        <a href={firm.emailHref}>E-posta gönderin <span aria-hidden="true">↗</span></a>
+      </div>
+      <a class="text-link" href="/#alanlar">Tüm çalışma alanları <span aria-hidden="true">↗</span></a>
+      <a class="text-link" href={`/calisma-alanlari/${nextArea.slug}/`}>Sonraki alan: {nextArea.title} <span aria-hidden="true">→</span></a>
+        </section>
+      </section>
+    </div>
+
+    <FAQ items={area.faqs} />
+  </main>
+</Layout>

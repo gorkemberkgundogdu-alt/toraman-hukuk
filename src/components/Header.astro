@@ -1,0 +1,50 @@
+---
+import { firm } from '../data/content';
+interface Props { dark?: boolean }
+const { dark = true } = Astro.props;
+const home = Astro.url.pathname === '/';
+const sectionHref = (id: string) => `${home ? '' : '/'}#${id}`;
+const links = [
+  { id: 'alanlar', label: 'Çalışma alanları' },
+  { id: 'yaklasim', label: 'Yaklaşımımız' },
+  { id: 'ekip', label: 'Ekibimiz' },
+  { id: 'sorular', label: 'Sık sorulan sorular' },
+  { id: 'iletisim', label: 'İletişim' },
+];
+---
+<header class:list={['site-header', { 'is-light': !dark }]} data-default-theme={dark ? 'dark' : 'light'}>
+  <a class="brand" href="/" aria-label={`${firm.name} — ana sayfa`}>
+    <img class="brand-logo" src="/images/logo.png" alt={firm.name} width="243" height="49" fetchpriority="high" style={`filter: ${dark ? 'invert(1)' : 'none'}; mix-blend-mode: ${dark ? 'screen' : 'multiply'}`} />
+  </a>
+  <nav class="header-links" aria-label="Ana gezinme">
+    <a href={sectionHref('alanlar')}>Çalışma alanları</a>
+    <a href={sectionHref('yaklasim')}>Yaklaşımımız</a>
+    <a href={sectionHref('ekip')}>Ekibimiz</a>
+    <a class="header-contact" href={sectionHref('iletisim')}>İletişim <span aria-hidden="true">↗</span></a>
+  </nav>
+  <details class="header-fallback">
+    <summary>Menü</summary>
+    <nav aria-label="Bölüm gezinmesi">
+      {links.map((link) => <a href={sectionHref(link.id)}>{link.label}</a>)}
+    </nav>
+  </details>
+  <button class="menu-toggle" type="button" hidden aria-haspopup="dialog" aria-controls="site-menu" aria-expanded="false">Menü <span aria-hidden="true">+</span></button>
+  <dialog class="nav-dialog" id="site-menu" aria-labelledby="menu-title">
+    <div class="menu-top"><p id="menu-title">Toraman Hukuk · Menü</p><button class="menu-close" type="button" autofocus>Kapat <span aria-hidden="true">×</span></button></div>
+    <nav class="menu-links" aria-label="Mobil gezinme">
+      {links.map((link) => <a href={sectionHref(link.id)}>{link.label} <span aria-hidden="true">↗</span></a>)}
+    </nav>
+    <div class="menu-contact"><p><a href={firm.phoneHref}>{firm.telephone}</a></p><p><a href={`mailto:${firm.email}`}>{firm.email}</a></p></div>
+  </dialog>
+</header>
+<style>
+  /* Functional fallback lives with its markup; global.css owns the enhanced dialog. */
+  .menu-toggle[hidden], .header-fallback[hidden] { display: none !important; }
+  .header-fallback { display: none; }
+  @media (max-width: 800px) {
+    .header-fallback { display: block; }
+    .header-fallback summary { cursor: pointer; min-height: 44px; display: flex; align-items: center; font-size: 13px; }
+    .header-fallback nav { position: absolute; top: 100%; left: 0; right: 0; padding: 20px var(--gutter); background: var(--ink); color: var(--paper); display: flex; flex-direction: column; max-height: calc(100dvh - var(--header-height)); overflow-y: auto; border-top: 1px solid var(--line); }
+    .header-fallback a { display: flex; align-items: center; min-height: 48px; }
+  }
+</style>

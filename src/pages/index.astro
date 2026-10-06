@@ -1,0 +1,50 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Scene from '../components/Scene';
+import Loader from '../components/Loader.astro';
+import FAQ from '../components/FAQ.astro';
+import { areas, team } from '../data/content';
+---
+<Layout>
+  <Loader />
+  <Scene client:load />
+  <nav class="page-progress" aria-label="Sayfa bölümleri">
+    <a href="#baslangic" class="is-active" aria-label="Başlangıç"><span>01</span></a>
+    <a href="#alanlar" aria-label="Çalışma alanları"><span>02</span></a>
+    <a href="#yaklasim" aria-label="Yaklaşımımız"><span>03</span></a>
+    <a href="#ekip" aria-label="Ekibimiz"><span>04</span></a>
+    <a href="#iletisim" aria-label="İletişim"><span>05</span></a>
+  </nav>
+  <main id="main-content">
+    <section class="hero" id="baslangic" data-scene="hero">
+      <div class="hero-eyebrow"><span class="status-dot"></span> 2004’TEN BUGÜNE · İSTANBUL</div>
+      <h1 class="hero-title"><span>İstanbul’da.</span><span>Kararlı bir</span><span>hukuki duruş.</span></h1>
+      <div class="hero-bottom">
+        <p class="hero-description">Toraman Hukuk, 2004 yılından bu yana hukuki danışmanlık, dava takibi ve uyuşmazlık çözümü hizmetleri sunmaktadır.</p>
+        <div class="hero-actions"><a class="text-link" href="#alanlar">Çalışma alanlarımız <span aria-hidden="true">↗</span></a><a class="text-link secondary" href="#iletisim">İletişime geçin <span aria-hidden="true">↗</span></a></div>
+      </div>
+      <div class="hero-footer"><span>HUKUKİ DANIŞMANLIK &amp; TEMSİL</span><a href="#alanlar">KEŞFETMEK İÇİN KAYDIRIN <span aria-hidden="true">↓</span></a><span class="hero-coordinate">İSTANBUL BAROSU</span></div>
+    </section>
+    <section class="practice-section" id="alanlar" data-scene="practice">
+      <div class="section-top"><p class="section-label">01 / ÇALIŞMA ALANLARI</p><p class="section-note">Farklı meseleler.<br />Bütünlüklü bir hukuki bakış.</p></div>
+      <h2 class="section-title" data-reveal>Her meseleye<br /><span class="subtle-text">özenli bir yaklaşım.</span></h2>
+      <div class="practice-grid">
+        {areas.map((area) => <a class="practice-item" href={`/calisma-alanlari/${area.slug}/`} data-reveal><span class="practice-number">{area.id}</span><div class="practice-text"><h3 class="practice-name">{area.title}</h3><p class="practice-description">{area.description}</p></div><span class="practice-arrow" aria-hidden="true">↗</span></a>)}
+      </div>
+    </section>
+    <section class="about-section" id="yaklasim" data-scene="about">
+      <div class="about-kicker"><p class="section-label">02 / TORAMAN HUKUK</p><span class="about-year">2004<span>’TEN BUGÜNE</span></span></div>
+      <div class="about-content">
+        <h2 class="about-title" data-reveal>Hukuku anlamak.<br />Süreci yönetmek.<br /><span class="subtle-text">Yanınızda olmak.</span></h2>
+        <div class="about-copy" data-reveal><p>Toraman Hukuk, 2004 yılında İstanbul Barosu’na kayıtlı Arabulucu Avukat Tuğrul Toraman tarafından Kadıköy’de kurulmuştur.</p><p>Bireylerin ve şirketlerin hukuki ihtiyaçlarını, konunun özelliklerini ve olası sonuçlarını birlikte değerlendirerek ele alır. Danışmanlıktan dava takibine ve uyuşmazlıkların çözümüne uzanan süreçlerde; açık iletişimi, dikkatli hazırlığı ve düzenli bilgilendirmeyi esas alır.</p></div>
+        <div class="principles"><div><span>01</span><h3>Açık iletişim</h3><p>Hukuki meseleleri anlaşılır bir dille ele alırız.</p></div><div><span>02</span><h3>Dikkatli hazırlık</h3><p>Her dosyayı kendi koşulları içinde değerlendiririz.</p></div><div><span>03</span><h3>Bütünlüklü bakış</h3><p>Danışmanlık ve uyuşmazlık süreçlerini birlikte düşünürüz.</p></div></div>
+      </div>
+    </section>
+    <section class="team-section" id="ekip" data-scene="team">
+      <div class="team-intro"><p class="section-label">03 / EKİBİMİZ</p><h2 class="section-title" data-reveal>Birlikte düşünür.<br /><span class="subtle-text">Özenle çalışırız.</span></h2><p class="team-note">Farklı çalışma alanlarını aynı masada buluşturan bir ekip.</p></div>
+      <div class="team-grid">{team.map((person,index) => <article class="team-card" data-reveal><div class="team-photo"><img src={person.image} alt={person.name} width="700" height="900" loading="lazy" decoding="async" /><span class="team-index">0{index+1}</span></div><div class="team-info"><h3 class="team-name">{person.name}</h3><p class="team-role">{person.role}</p>{person.education && <p class="team-education">{person.education}</p>}</div></article>)}</div>
+      <p class="bar-note">Avukatlarımız İstanbul Barosu’na kayıtlıdır.</p>
+    </section>
+    <FAQ />
+  </main>
+</Layout>
