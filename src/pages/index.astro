@@ -3,7 +3,8 @@ import Layout from '../layouts/Layout.astro';
 import Scene from '../components/Scene';
 import Loader from '../components/Loader.astro';
 import FAQ from '../components/FAQ.astro';
-import { areas, team } from '../data/content';
+import Team from '../components/Team.astro';
+import { areas } from '../data/content';
 ---
 <Layout>
   <Loader />
@@ -41,11 +42,7 @@ import { areas, team } from '../data/content';
         <p class="about-signature">Arb. Av. Tuğrul Toraman<br /><span>Kurucu</span></p>
       </div>
     </section>
-    <section class="team-section" id="ekip" data-scene="team">
-      <h2 class="section-title" data-reveal>Ekibimizle<br />tanışın.</h2>
-      <div class="team-grid">{team.map((person,index) => <article class="team-card" data-reveal><div class="team-photo"><img src={person.image} alt={person.name} width="700" height="900" loading="lazy" decoding="async" /><span class="team-index">0{index+1}</span></div><div class="team-info"><h3 class="team-name">{person.name}</h3><p class="team-role">{person.role}</p>{person.education && <p class="team-education">{person.education}</p>}</div></article>)}</div>
-      <p class="bar-note">Avukatlarımız İstanbul Barosu’na kayıtlıdır.</p>
-    </section>
+    <Team />
     <FAQ />
   </main>
 </Layout>

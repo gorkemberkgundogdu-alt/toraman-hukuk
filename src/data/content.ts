@@ -14,6 +14,7 @@ export interface PracticeArea {
 }
 
 export interface TeamMember {
+  group: 'founder' | 'team' | 'reference';
   name: string;
   role: string;
   education?: string;
@@ -205,11 +206,11 @@ export const areas: PracticeArea[] = [
 ];
 
 export const team: TeamMember[] = [
-  { name: 'Tuğrul Toraman', role: 'Arb. Av. · Kurucu', education: 'Dokuz Eylül Üniversitesi Hukuk Fakültesi', image: '/images/tugrul.webp' },
-  { name: 'Efe Cem Toraman', role: 'Av.', education: 'Bahçeşehir Üniversitesi Hukuk Fakültesi', image: '/images/efe.webp' },
-  { name: 'Doğukan Petek', role: 'Av.', education: 'İstanbul Ticaret Üniversitesi Hukuk Fakültesi', image: '/images/dogukan.webp' },
-  { name: 'Senay Kılıç', role: 'Av.', education: 'Marmara Üniversitesi Hukuk Fakültesi', image: '/images/senay.webp' },
-  { name: 'Sevilay Lektemur', role: 'Asistan', image: '/images/sevilay.webp' },
+  { group: 'founder', name: 'Tuğrul Toraman', role: 'Arb. Av.', education: 'Dokuz Eylül Üniversitesi Hukuk Fakültesi', image: '/images/tugrul.webp' },
+  { group: 'team', name: 'Efe Cem Toraman', role: 'Av.', education: 'Bahçeşehir Üniversitesi Hukuk Fakültesi', image: '/images/efe.webp' },
+  { group: 'team', name: 'Doğukan Petek', role: 'Av.', education: 'İstanbul Ticaret Üniversitesi Hukuk Fakültesi', image: '/images/dogukan.webp' },
+  { group: 'reference', name: 'Senay Kılıç', role: 'Arb. Av.', education: 'Marmara Üniversitesi Hukuk Fakültesi', image: '/images/senay.webp' },
+  { group: 'team', name: 'Sevilay Lektemur', role: 'Asistan', image: '/images/sevilay.webp' },
 ];
 
 export const faqs: FAQItem[] = [

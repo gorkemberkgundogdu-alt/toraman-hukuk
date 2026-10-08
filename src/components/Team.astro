@@ -1,0 +1,31 @@
+---
+import { team } from '../data/content';
+const founder = team.find(person => person.group === 'founder');
+const colleagues = team.filter(person => person.group === 'team');
+const reference = team.find(person => person.group === 'reference');
+---
+<section class="team-section team-hierarchy" id="ekip" data-scene="team" aria-labelledby="team-heading">
+  <h2 class="section-title" id="team-heading" data-reveal>Ekibimizle<br />tanışın.</h2>
+  {founder && <div class="team-group founder-group" aria-labelledby="founder-heading">
+    <h3 class="team-group-heading" id="founder-heading" data-reveal>Kurucu</h3>
+    <article class="person-profile founder-profile" data-reveal>
+      <div class="team-photo"><img src={founder.image} alt={founder.name} width="700" height="900" loading="lazy" decoding="async" /></div>
+      <div class="team-info"><h4 class="team-name"><span class="person-title">{founder.role}</span> {founder.name}</h4><p class="team-education">{founder.education}</p></div>
+    </article>
+  </div>}
+  <div class="team-group colleagues-group" aria-labelledby="colleagues-heading">
+    <h3 class="team-group-heading" id="colleagues-heading" data-reveal>Ekibimiz</h3>
+    <div class="colleagues-flow">{colleagues.map(person => <article class="person-profile colleague-profile" data-reveal>
+      <div class="team-photo"><img src={person.image} alt={person.name} width="700" height="900" loading="lazy" decoding="async" /></div>
+      <div class="team-info"><h4 class="team-name">{person.role === 'Asistan' ? person.name : <><span class="person-title">{person.role}</span> {person.name}</>}</h4>{person.role === 'Asistan' && <p class="team-role">Asistan</p>}{person.education && <p class="team-education">{person.education}</p>}</div>
+    </article>)}</div>
+  </div>
+  {reference && <div class="team-group reference-group" aria-labelledby="reference-heading">
+    <h3 class="team-group-heading" id="reference-heading" data-reveal>Referans Büromuz</h3>
+    <article class="person-profile reference-profile" data-reveal>
+      <div class="team-photo"><img src={reference.image} alt={reference.name} width="700" height="900" loading="lazy" decoding="async" /></div>
+      <div class="team-info"><h4 class="team-name"><span class="person-title">{reference.role}</span> {reference.name}</h4><p class="team-education">{reference.education}</p></div>
+    </article>
+  </div>}
+  <p class="bar-note">Avukatlarımız İstanbul Barosu’na kayıtlıdır.</p>
+</section>

@@ -62,6 +62,20 @@ body:not(.is-detail) .page-progress a.is-active>span { background:var(--blue); o
 .scene-story .team-role { color:inherit; font-size:15px; }
 .scene-story .team-education { color:var(--flow-muted); font-size:13px; }
 .scene-story .bar-note { margin-left:23vw; color:var(--flow-muted); }
+/* Roles determine grouping; portrait order no longer implies equal affiliation. */
+.scene-story .team-hierarchy .team-group { margin-bottom:140px; }
+.scene-story .team-group-heading { font-size:clamp(24px,2.5vw,42px); line-height:1.2; font-weight:600; letter-spacing:-.04em; margin:0 0 45px 23vw; }
+.scene-story .person-profile { min-width:0; position:relative; width:23vw; max-width:470px; }
+.scene-story .founder-profile { width:31vw; max-width:560px; margin-left:23vw; }
+.scene-story .founder-profile .team-name { font-size:clamp(32px,3vw,48px); }
+.scene-story .person-title { display:block; font-size:14px; font-weight:400; letter-spacing:0; line-height:1.5; margin-bottom:8px; color:var(--flow-muted); }
+.scene-story .colleague-profile { margin:0 0 90px 23vw; }
+.scene-story .colleague-profile:nth-child(even) { margin-left:61vw; margin-top:-190px; }
+.scene-story .reference-group { margin-left:52vw; width:33vw; max-width:600px; }
+.scene-story .reference-group .team-group-heading { margin-left:0; }
+.scene-story .reference-profile { width:100%; max-width:430px; }
+.scene-story .person-profile .team-education { max-width:100%; }
+.scene-story .team-hierarchy .bar-note { font-size:13px; }
 .scene-story .faq-section { display:block; padding:100px 15vw 140px 23vw; color:inherit; background:none; }
 .scene-story .faq-heading { font-size:clamp(48px,5vw,80px); max-width:650px; font-weight:700; margin-top:25px; }
 .scene-story .faq-section .section-label { color:var(--flow-muted); }
@@ -125,6 +139,18 @@ body:not(.is-detail) #load-status { font-size:10px; letter-spacing:.04em; }
   .scene-story .team-index { top:-45px; left:-10px; font-size:110px; }
   .scene-story .team-name { font-size:28px; }
   .scene-story .bar-note { margin-left:0; }
+  .scene-story .team-hierarchy .team-group { margin-bottom:88px; }
+  .scene-story .team-hierarchy .team-group-heading { font-size:28px; margin:0 0 28px; }
+  .scene-story .team-hierarchy .person-profile { width:76%; max-width:360px; }
+  .scene-story .team-hierarchy .founder-profile { width:88%; max-width:420px; margin-left:0; }
+  .scene-story .founder-profile .team-name { font-size:clamp(28px,7.2vw,38px); }
+  .scene-story .team-hierarchy .colleague-profile { margin:0 0 65px; }
+  .scene-story .team-hierarchy .colleague-profile:nth-child(even) { margin-left:auto; }
+  .scene-story .team-hierarchy .reference-group { margin-left:12%; width:88%; max-width:420px; }
+  .scene-story .team-hierarchy .reference-profile { width:100%; }
+  .scene-story .team-hierarchy .team-name { overflow-wrap:break-word; }
+  .scene-story .team-hierarchy .team-education { font-size:12px; line-height:1.6; }
+  .scene-story .person-title { font-size:13px; }
   .scene-story .faq-section { padding:80px 24px; }
   .scene-story .faq-heading { font-size:43px; }
   .scene-story .faq-list { width:100%; }
