@@ -74,8 +74,9 @@ body:not(.is-detail) .page-progress a.is-active>span { background:var(--blue); o
 .scene-story .reference-group { margin-left:52vw; width:33vw; max-width:600px; }
 .scene-story .reference-group .team-group-heading { margin-left:0; }
 .scene-story .reference-profile { width:100%; max-width:430px; }
-.scene-story .person-profile .team-education { max-width:100%; }
-.scene-story .team-hierarchy .bar-note { font-size:13px; }
+.scene-story .team-hierarchy .team-name { margin:0; }
+.scene-story .person-bar { display:inline-block; font-size:clamp(12px,.42em,18px); font-weight:500; letter-spacing:-.01em; line-height:1.4; white-space:nowrap; color:var(--flow-muted); vertical-align:baseline; }
+.scene-story .person-profile .team-education { max-width:100%; margin-top:8px; }
 .scene-story .faq-section { display:block; padding:100px 15vw 140px 23vw; color:inherit; background:none; }
 .scene-story .faq-heading { font-size:clamp(48px,5vw,80px); max-width:650px; font-weight:700; margin-top:25px; }
 .scene-story .faq-section .section-label { color:var(--flow-muted); }
