@@ -71,35 +71,38 @@ function setupMenu() {
 
 function setupLoader() {
   const loader = document.querySelector<HTMLElement>('#loader');
-  const progress = document.querySelector<HTMLProgressElement>('#load-progress');
   const status = document.querySelector<HTMLElement>('#load-status');
-  if (!loader || !progress || !status || loader.hidden) return;
+  if (!loader || !status || loader.hidden) return;
   const completed = new Set<string>();
   let finished = false;
+  let exitTimer: ReturnType<typeof setTimeout> | undefined;
   const exit = () => {
     if (finished) return;
     finished = true;
     const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const elapsed = performance.now() - Number(loader.dataset.started || 0);
-    // One brief branded opening sequence; progress remains tied to actual readiness.
-    const hold = reduced ? 0 : Math.max(0, 1050 - elapsed);
-    setTimeout(() => {
+    const repeat = loader.dataset.repeat === 'true';
+    // The bar represents the intro; actual readiness still gates the exit.
+    const hold = reduced || repeat ? 0 : Math.max(0, 1800 - elapsed);
+    exitTimer = setTimeout(() => {
+    if (loader.hidden) return;
+    try { sessionStorage.setItem('toraman:intro:v2', 'seen'); } catch {}
     document.documentElement.dataset.experienceEntered = 'true';
     const logo = loader.querySelector<HTMLElement>('.loader-logo');
     const headerLogo = document.querySelector<HTMLElement>('.site-header .brand-logo');
-    if (!reduced && logo && headerLogo && typeof logo.animate === 'function') {
+    if (!reduced && !repeat && logo && headerLogo && typeof logo.animate === 'function') {
       const start = logo.getBoundingClientRect();
       const target = headerLogo.getBoundingClientRect();
       logo.animate([{transform:'none'},{transform:`translate(${target.left + target.width/2 - start.left - start.width/2}px, ${target.top + target.height/2 - start.top - start.height/2}px) scale(${target.width/start.width})`}],{duration:500,easing:'cubic-bezier(.22,.7,.2,1)',fill:'forwards'});
     }
-    setTimeout(() => window.dispatchEvent(new Event('toraman:enter')), reduced ? 0 : 250);
+    setTimeout(() => window.dispatchEvent(new Event('toraman:enter')), reduced || repeat ? 0 : 250);
     loader.dispatchEvent(new Event('toraman:loader-exit'));
     window.removeEventListener('toraman:scene-ready', sceneReady);
     loader.dataset.state = 'ready';
     loader.style.pointerEvents = 'none';
     if (typeof loader.animate !== 'function') { loader.hidden = true; return; }
     const animation = loader.animate([{ opacity: 1 }, { opacity: 0 }], {
-      duration: reduced ? 0 : 650,
+      duration: reduced ? 0 : repeat ? 180 : 500,
       easing: 'ease-out', fill: 'forwards',
     });
     animation.finished.then(() => { loader.hidden = true; }).catch(() => { loader.hidden = true; });
@@ -108,15 +111,15 @@ function setupLoader() {
   const complete = (stage: string) => {
     if (finished) return;
     completed.add(stage);
-    progress.value = completed.size;
     const pending = !completed.has('dom') ? 'Sayfa hazırlanıyor' : !completed.has('fonts') ? 'Yazı tipleri hazırlanıyor' : !completed.has('scene') ? 'Görsel sahne hazırlanıyor' : 'Sayfa hazır';
-    status.textContent = `${pending} · ${completed.size} / 3 aşama`;
+    status.textContent = `${pending}.`;
     if (completed.size === 3) exit();
   };
   const sceneReady = () => complete('scene');
   window.addEventListener('toraman:scene-ready', sceneReady, { once: true });
   loader.addEventListener('toraman:loader-timeout', () => {
     finished = true;
+    clearTimeout(exitTimer);
     window.removeEventListener('toraman:scene-ready', sceneReady);
   }, { once: true });
   if (loader.dataset.sceneReady === 'true' || document.documentElement.dataset.sceneReady === 'true') sceneReady();

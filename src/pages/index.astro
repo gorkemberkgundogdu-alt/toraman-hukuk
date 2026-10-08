@@ -4,6 +4,7 @@ import Scene from '../components/Scene';
 import Loader from '../components/Loader.astro';
 import FAQ from '../components/FAQ.astro';
 import Team from '../components/Team.astro';
+import Laurel from '../components/Laurel.astro';
 import { areas } from '../data/content';
 ---
 <Layout>
@@ -25,7 +26,11 @@ import { areas } from '../data/content';
       <a class="hero-contact" href="#iletisim">İletişime geçin <span aria-hidden="true">↗</span></a>
       <div class="hero-bottom">
         <p class="hero-description">Toraman Hukuk, 2004 yılından bu yana hukuki danışmanlık, dava takibi ve uyuşmazlık çözümü hizmetleri sunmaktadır.</p>
-        <p class="hero-credentials">İstanbul Barosu<br />Hukuki danışmanlık &amp; temsil<br />Arabuluculuk &amp; uyuşmazlık çözümü</p>
+<ul class="hero-credentials" role="list">
+          <li><Laurel /><span>İstanbul Barosu</span></li>
+          <li><Laurel /><span>Hukuki danışmanlık &amp; temsil</span></li>
+          <li><Laurel /><span>Arabuluculuk &amp; uyuşmazlık çözümü</span></li>
+        </ul>
       </div>
       <a class="scroll-cue" href="#alanlar">Keşfetmek için kaydırın <span aria-hidden="true">↓</span></a>
     </section>
